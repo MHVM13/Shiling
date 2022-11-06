@@ -110,6 +110,7 @@ def get_empty():
                 return i, j
 
 
+# Модель рассовой сегрегации
 def segregation():
     iterations_counter = 0
 
@@ -122,9 +123,3 @@ def segregation():
         field[unlucky_i][unlucky_j] = 0
 
         iterations_counter += 1
-
-
-if __name__ == '__main__':
-    field_filling()
-    print_field()
-    a, b = get_unlucky()
