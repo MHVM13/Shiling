@@ -32,20 +32,18 @@ RED_PERCENT = 0.45
 NULL_PERCENT = 0.10
 HAPPY_CELLS_COUNTER = 2  # количество клеток-соседей для того, чтобы выбранная клетка была счаслива
 
-# Создание поля NxN
+# Создание поля NxN # TODO заполнение массива пустыми значениями
 field = [
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0],
 ]
 
 
 # TODO
 # pd.DataFrame(np.reshape((N, N)))
-
-# TODO заполнение массива пустыми значениями
 
 
 # Метод для рассчета количества клеток заданного процента
@@ -87,19 +85,23 @@ def print_field():
 def get_unlucky():
     the_same_counter = 0  # количество соседей похожих на выбранную клетку
 
-    while the_same_counter < 2:
-        c = 0  # TODO random.randint(0, N-1)
-        r = 0  # TODO random.randint(0, N-1)
+    while True:
+        i = 0  # TODO random.randint(0, N-1)
+        j = 0  # TODO random.randint(0, N-1)
 
-        # TODO проверка соседей
-        if 0 <= c < len(field) and 0 <= r < len(field[0]):
-            for j in range(c - 1 - 1, c + 1):
-                for i in range(r - 1 - 1, r + 1):
-                    if field[c][r] == field[i][j]:
-                        print(field[i][j], i, j)
+        # Проверка ближайщих соседей
+        # TODO проверка на выходы за границы или выброс исключения
+        if field[i - 1][j - 1] == field[i][j]: the_same_counter += 1
+        if field[i][j - 1] == field[i][j]: the_same_counter += 1
+        if field[i - 1][j + 1] == field[i][j]: the_same_counter += 1
+        if field[i + 1][j] == field[i][j]: the_same_counter += 1
+        if field[i + 1][j + 1] == field[i][j]: the_same_counter += 1
+        if field[i][j + 1] == field[i][j]: the_same_counter += 1
+        if field[i - 1][j + 1] == field[i][j]: the_same_counter += 1
+        if field[i - 1][j] == field[i][j]: the_same_counter += 1
 
         if the_same_counter >= 2:
-            return c, r
+            return i, j
 
 
 # Поиск пустой клетки
@@ -123,3 +125,9 @@ def segregation():
         field[unlucky_i][unlucky_j] = 0
 
         iterations_counter += 1
+
+
+# MAIN
+field_filling()
+print_field()
+get_unlucky()
