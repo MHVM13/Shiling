@@ -45,6 +45,8 @@ field = [
 # TODO
 # pd.DataFrame(np.reshape((N, N)))
 
+# TODO заполнение массива пустыми значениями
+
 
 # Метод для рассчета количества клеток заданного процента
 def calc_cell(cells_percent):
@@ -53,29 +55,23 @@ def calc_cell(cells_percent):
     return int(cells_count)
 
 
-# Заполнение поля пустыми значениями
-# def start_init():
-#     fo
-
-
 # Метод для заполнения поля клетками в случайном порядке
 def field_filling():
-    blue = 0
+    blue = calc_cell(BLUE_PERCENT)
     red = calc_cell(RED_PERCENT)
-    # null = calc_cell(NULL_PERCENT)
 
-    while blue != 0 & red != 0:
-        c = random.randint(0, 4)  # рандомная колонка
-        r = random.randint(0, 4)  # рандомный ряд
+    while blue != 0 or red != 0:
+        i = random.randint(0, N - 1)  # рандомная колонка
+        j = random.randint(0, N - 1)  # рандомный ряд
 
-        if field[c][r] != 0:
+        if field[i][j] != 0:
             continue
         else:
             if blue != 0:
-                field[c][r] = 1
+                field[i][j] = 1
                 blue -= 1
             elif (blue == 0) and (red != 0):
-                field[c][r] = 2
+                field[i][j] = 2
                 red -= 1
 
 
@@ -87,22 +83,48 @@ def print_field():
         print('')
 
 
-# Метод для рассчета счастлива клетка или нет
-# def calc_lucky(matrix, i, j):
-
+# Поиск несчастливой клетки
 def get_unlucky():
-    c = random.randint(0, 4)
-    r = random.randint(0, 4)
+    the_same_counter = 0  # количество соседей похожих на выбранную клетку
 
+    while the_same_counter < 2:
+        c = 0  # TODO random.randint(0, N-1)
+        r = 0  # TODO random.randint(0, N-1)
+
+        # TODO проверка соседей
+        if 0 <= c < len(field) and 0 <= r < len(field[0]):
+            for j in range(c - 1 - 1, c + 1):
+                for i in range(r - 1 - 1, r + 1):
+                    if field[c][r] == field[i][j]:
+                        print(field[i][j], i, j)
+
+        if the_same_counter >= 2:
+            return c, r
+
+
+# Поиск пустой клетки
+def get_empty():
+    for i in range(0, N - 1):
+        for j in range(0, N - 1):
+            if field[i][j] == 0:
+                return i, j
 
 
 def segregation():
     iterations_counter = 0
+
     while iterations_counter != ITERATIONS_NUM:
-        field[random.randint(0, N - 1)][random.randint(0, N - 1)]
+        unlucky_i, unlucky_j = get_unlucky()
+        empty_i, empty_j = get_empty()
+
+        # Перемещаем несчастную клетку в свободное место
+        field[empty_i][empty_j] = field[unlucky_i][unlucky_j]
+        field[unlucky_i][unlucky_j] = 0
+
         iterations_counter += 1
 
 
 if __name__ == '__main__':
     field_filling()
     print_field()
+    a, b = get_unlucky()
