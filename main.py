@@ -32,18 +32,8 @@ RED_PERCENT = 0.45
 NULL_PERCENT = 0.10
 HAPPY_CELLS_COUNTER = 2  # количество клеток-соседей для того, чтобы выбранная клетка была счаслива
 
-# Создание поля NxN # TODO заполнение массива пустыми значениями
-field = [
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-]
-
-
-# TODO
-# pd.DataFrame(np.reshape((N, N)))
+# Создание пустого поля NxN
+field = np.zeros((N, N), dtype=int)
 
 
 # Метод для рассчета количества клеток заданного процента
@@ -71,14 +61,6 @@ def field_filling():
             elif (blue == 0) and (red != 0):
                 field[i][j] = 2
                 red -= 1
-
-
-# TODO delete
-def print_field():
-    for col in range(5):
-        for row in range(5):
-            print(field[col][row], end='')
-        print('')
 
 
 # Поиск несчастливой клетки
@@ -129,5 +111,7 @@ def segregation():
 
 # MAIN
 field_filling()
-print_field()
-get_unlucky()
+print(field)
+print('\n')
+segregation()
+print(field)
