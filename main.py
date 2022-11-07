@@ -1,4 +1,3 @@
-# Для импортирования библиотек
 import random
 import pandas as pd
 import numpy as np
@@ -30,27 +29,28 @@ ITERATIONS_NUM = 5  # TODO input('Введете количество итера
 BLUE_PERCENT = 0.45
 RED_PERCENT = 0.45
 NULL_PERCENT = 0.10
-HAPPY_CELLS_COUNTER = 2  # количество клеток-соседей для того, чтобы выбранная клетка была счаслива
+FOR_HAPPY = 2  # количество клеток-соседей для того, чтобы выбранная клетка была счаслива
 
 # Создание пустого поля NxN
 field = np.zeros((N, N), dtype=int)
 
 
 # Метод для рассчета количества клеток заданного процента
-def calc_cell(cells_percent):
+def calc_cells(cells_percent):
     n = N ** 2
-    cells_count = n * cells_percent
-    return int(cells_count)
+    cells_num = n * cells_percent
+    return int(cells_num)
 
 
 # Метод для заполнения поля клетками в случайном порядке
 def field_filling():
-    blue = calc_cell(BLUE_PERCENT)
-    red = calc_cell(RED_PERCENT)
+    blue = calc_cells(BLUE_PERCENT)
+    red = calc_cells(RED_PERCENT)
 
     while blue != 0 or red != 0:
-        i = random.randint(0, N - 1)  # рандомная колонка
-        j = random.randint(0, N - 1)  # рандомный ряд
+        # Генерация случаных индексов
+        i = random.randint(0, N - 1)  # случайная колонка
+        j = random.randint(0, N - 1)  # случайная ряд
 
         if field[i][j] != 0:
             continue
@@ -68,19 +68,21 @@ def get_unlucky():
     the_same_counter = 0  # количество соседей похожих на выбранную клетку
 
     while True:
-        i = 0  # TODO random.randint(0, N-1)
-        j = 0  # TODO random.randint(0, N-1)
+        # Генерация индексов произвольной клетки
+        i = 4  # random.randint(0, N - 1)
+        j = 4  # random.randint(0, N - 1)
 
-        # Проверка ближайщих соседей
-        # TODO проверка на выходы за границы или выброс исключения
-        if field[i - 1][j - 1] == field[i][j]: the_same_counter += 1
-        if field[i][j - 1] == field[i][j]: the_same_counter += 1
-        if field[i - 1][j + 1] == field[i][j]: the_same_counter += 1
-        if field[i + 1][j] == field[i][j]: the_same_counter += 1
-        if field[i + 1][j + 1] == field[i][j]: the_same_counter += 1
-        if field[i][j + 1] == field[i][j]: the_same_counter += 1
-        if field[i - 1][j + 1] == field[i][j]: the_same_counter += 1
-        if field[i - 1][j] == field[i][j]: the_same_counter += 1
+        if field[i][j] != 0:
+            # Проверка ближайщих соседей
+            # TODO проверка на выхода за пределы
+            if field[i - 1][j - 1] == field[i][j]: the_same_counter += 1
+            if field[i][j - 1] == field[i][j]: the_same_counter += 1
+            if field[i - 1][j + 1] == field[i][j]: the_same_counter += 1
+            if field[i + 1][j] == field[i][j]: the_same_counter += 1
+            if field[i + 1][j + 1] == field[i][j]: the_same_counter += 1
+            if field[i][j + 1] == field[i][j]: the_same_counter += 1
+            if field[i - 1][j + 1] == field[i][j]: the_same_counter += 1
+            if field[i - 1][j] == field[i][j]: the_same_counter += 1
 
         if the_same_counter >= 2:
             return i, j
@@ -95,7 +97,7 @@ def get_empty():
 
 
 # Модель рассовой сегрегации
-def segregation():
+def segregation(iterations_num):
     iterations_counter = 0
 
     while iterations_counter != ITERATIONS_NUM:
@@ -112,6 +114,5 @@ def segregation():
 # MAIN
 field_filling()
 print(field)
-print('\n')
-segregation()
+segregation(input('Введите количество итераций: '))
 print(field)
