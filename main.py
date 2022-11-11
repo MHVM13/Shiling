@@ -65,27 +65,29 @@ def field_filling():
 
 # Поиск несчастливой клетки
 def get_unlucky():
-    the_same_counter = 0  # количество соседей похожих на выбранную клетку
-
     while True:
+        the_same_counter = 0  # количество соседей похожих на выбранную клетку
+
         # Генерация индексов произвольной клетки
-        rand_i = 4  # random.randint(0, N - 1)
-        rand_j = 4  # random.randint(0, N - 1)
+        rand_i = random.randint(0, N - 1)
+        rand_j = random.randint(0, N - 1)
 
-        for i in range(0, N - 1):
-            for j in range(0, N - 1):
-                if i != rand_i and j != rand_j:
-                    if abs(rand_i - i) or abs(rand_j - j):
-                        the_same_counter += 1
+        if field[rand_i, rand_j] != 0:
+            for i in range(0, N):
+                for j in range(0, N):
+                    if i != rand_i and j != rand_j:
+                        if abs(rand_i - i) == 1 and abs(rand_j - j) == 1:
+                            the_same_counter += 1
 
-        if the_same_counter >= 2:
+        if the_same_counter < 2:
+            print(the_same_counter)  # TODO delete
             return rand_i, rand_j
 
 
 # Поиск пустой клетки
 def get_empty():
-    for i in range(0, N - 1):
-        for j in range(0, N - 1):
+    for i in range(0, N):
+        for j in range(0, N):
             if field[i][j] == 0:
                 return i, j
 
