@@ -24,8 +24,7 @@ import numpy as np
 # !!!!
 # blue = 1 red = 2 null = 0
 
-N = 5  # TODO input('Введете сторону квадрата: ')
-ITERATIONS_NUM = 5  # TODO input('Введете количество итераций: ')
+N = int(input('Введете сторону квадрата: '))
 BLUE_PERCENT = 0.45
 RED_PERCENT = 0.45
 NULL_PERCENT = 0.10
@@ -79,8 +78,7 @@ def get_unlucky():
                         if abs(rand_i - i) == 1 and abs(rand_j - j) == 1:
                             the_same_counter += 1
 
-        if the_same_counter < 2:
-            print(the_same_counter)  # TODO delete
+        if the_same_counter < FOR_HAPPY:
             return rand_i, rand_j
 
 
@@ -96,7 +94,7 @@ def get_empty():
 def segregation(iterations_num):
     iterations_counter = 0
 
-    while iterations_counter != ITERATIONS_NUM:
+    while iterations_counter != iterations_num:
         unlucky_i, unlucky_j = get_unlucky()
         empty_i, empty_j = get_empty()
 
