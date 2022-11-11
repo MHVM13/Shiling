@@ -69,23 +69,17 @@ def get_unlucky():
 
     while True:
         # Генерация индексов произвольной клетки
-        i = 4  # random.randint(0, N - 1)
-        j = 4  # random.randint(0, N - 1)
+        rand_i = 4  # random.randint(0, N - 1)
+        rand_j = 4  # random.randint(0, N - 1)
 
-        if field[i][j] != 0:
-            # Проверка ближайщих соседей
-            # TODO проверка на выхода за пределы
-            if field[i - 1][j - 1] == field[i][j]: the_same_counter += 1
-            if field[i][j - 1] == field[i][j]: the_same_counter += 1
-            if field[i - 1][j + 1] == field[i][j]: the_same_counter += 1
-            if field[i + 1][j] == field[i][j]: the_same_counter += 1
-            if field[i + 1][j + 1] == field[i][j]: the_same_counter += 1
-            if field[i][j + 1] == field[i][j]: the_same_counter += 1
-            if field[i - 1][j + 1] == field[i][j]: the_same_counter += 1
-            if field[i - 1][j] == field[i][j]: the_same_counter += 1
+        for i in range(0, N - 1):
+            for j in range(0, N - 1):
+                if i != rand_i and j != rand_j:
+                    if abs(rand_i - i) or abs(rand_j - j):
+                        the_same_counter += 1
 
         if the_same_counter >= 2:
-            return i, j
+            return rand_i, rand_j
 
 
 # Поиск пустой клетки
