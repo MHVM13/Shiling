@@ -68,17 +68,17 @@ def field_filling():
 # Поиск несчастливой клетки
 def get_unlucky():
     while True:
-        the_same_counter = 0  # количество соседей похожих на выбранную клетку
+        the_same_counter = 0  # Количество соседей похожих на выбранную клетку
 
         # Генерация индексов произвольной клетки
         rand_i = random.randint(0, N - 1)
         rand_j = random.randint(0, N - 1)
 
-        if field[rand_i, rand_j] != 0:
+        if field[rand_i, rand_j] != 0:  # Пустая клетка
             for i in range(0, N):
                 for j in range(0, N):
-                    if i != rand_i and j != rand_j:  # Попали на ту же клетку
-                        if abs(rand_i - i) == 1 and abs(rand_j - j) == 1:
+                    if (abs(rand_i - i) == 1 or abs(rand_i - i) == 0) and (abs(rand_j - j) == 1 or abs(rand_j - j) == 0):
+                        if i != rand_i or j != rand_j:  # Чтобы не считать саму себя
                             if field[i][j] == field[rand_i][rand_j]:
                                 the_same_counter += 1
 
