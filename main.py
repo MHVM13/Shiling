@@ -77,7 +77,8 @@ def get_unlucky():
         if field[rand_i, rand_j] != 0:  # Пустая клетка
             for i in range(0, N):
                 for j in range(0, N):
-                    if (abs(rand_i - i) == 1 or abs(rand_i - i) == 0) and (abs(rand_j - j) == 1 or abs(rand_j - j) == 0):
+                    if (abs(rand_i - i) == 1 or abs(rand_i - i) == 0) and (
+                            abs(rand_j - j) == 1 or abs(rand_j - j) == 0):
                         if i != rand_i or j != rand_j:  # Чтобы не считать саму себя
                             if field[i][j] == field[rand_i][rand_j]:
                                 the_same_counter += 1
@@ -86,12 +87,23 @@ def get_unlucky():
                 return rand_i, rand_j
 
 
+# Поиск пустых клеток и создание списка из них
+def find_empty():
+    empty_cells = list()
+
+    for i in range(N):
+        for j in range(N):
+            if field[i][j] == 0:
+                empty_cells.append((i, j))
+
+    return empty_cells
+
+
 # Поиск пустой клетки
 def get_empty():
-    for i in range(0, N):
-        for j in range(0, N):
-            if field[i][j] == 0:
-                return i, j
+    empty_cells = find_empty()
+    rand_value = random.randint(0, len(empty_cells) - 1)
+    return empty_cells[rand_value][0], empty_cells[rand_value][1]
 
 
 # Модель рассовой сегрегации
@@ -99,6 +111,8 @@ def segregation(iterations_num):
     iterations_counter = 0
 
     while iterations_counter != iterations_num:
+        print(iterations_counter)
+
         unlucky_i, unlucky_j = get_unlucky()
         empty_i, empty_j = get_empty()
 
@@ -106,10 +120,11 @@ def segregation(iterations_num):
         field[empty_i][empty_j] = field[unlucky_i][unlucky_j]
         field[unlucky_i][unlucky_j] = 0
 
-        get_graph()
+        # get_graph()
         iterations_counter += 1
 
 
 # MAIN
 field_filling()
 segregation(int(input('Введите количество итераций: ')))
+get_graph()
