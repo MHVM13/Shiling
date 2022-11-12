@@ -1,6 +1,6 @@
 import random
-import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 # TASK
 # Реализовать модель Шеллинга (модель расовой
@@ -20,10 +20,6 @@ import numpy as np
 # Вывести квадраты через данное некоторое количество
 # шагов иллюстрирующее расовую сегрегацию.
 
-
-# !!!!
-# blue = 1 red = 2 null = 0
-
 N = int(input('Введете сторону квадрата: '))
 BLUE_PERCENT = 0.45
 RED_PERCENT = 0.45
@@ -32,6 +28,12 @@ FOR_HAPPY = 2  # количество клеток-соседей для тог�
 
 # Создание пустого поля NxN
 field = np.zeros((N, N), dtype=int)
+
+
+# Вывод графика
+def get_graph():
+    plt.imshow(field, cmap='magma')
+    plt.show()
 
 
 # Метод для рассчета количества клеток заданного процента
@@ -61,6 +63,8 @@ def field_filling():
                 field[i][j] = 2
                 red -= 1
 
+    get_graph()
+
 
 # Поиск несчастливой клетки
 def get_unlucky():
@@ -76,7 +80,8 @@ def get_unlucky():
                 for j in range(0, N):
                     if i != rand_i and j != rand_j:
                         if abs(rand_i - i) == 1 and abs(rand_j - j) == 1:
-                            the_same_counter += 1
+                            if field[i][j] == field[rand_i][rand_j]:
+                                the_same_counter += 1
 
         if the_same_counter < FOR_HAPPY:
             return rand_i, rand_j
@@ -102,11 +107,10 @@ def segregation(iterations_num):
         field[empty_i][empty_j] = field[unlucky_i][unlucky_j]
         field[unlucky_i][unlucky_j] = 0
 
+        get_graph()
         iterations_counter += 1
 
 
 # MAIN
 field_filling()
-print(field)
-segregation(input('Введите количество итераций: '))
-print(field)
+segregation(int(input('Введите количество итераций: ')))
