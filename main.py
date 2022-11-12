@@ -23,7 +23,6 @@ import matplotlib.pyplot as plt
 N = int(input('Введете сторону квадрата: '))
 BLUE_PERCENT = 0.45
 RED_PERCENT = 0.45
-NULL_PERCENT = 0.10
 FOR_HAPPY = 2  # количество клеток-соседей для того, чтобы выбранная клетка была счаслива
 
 # Создание пустого поля NxN
@@ -78,13 +77,13 @@ def get_unlucky():
         if field[rand_i, rand_j] != 0:
             for i in range(0, N):
                 for j in range(0, N):
-                    if i != rand_i and j != rand_j:
+                    if i != rand_i and j != rand_j:  # Попали на ту же клетку
                         if abs(rand_i - i) == 1 and abs(rand_j - j) == 1:
                             if field[i][j] == field[rand_i][rand_j]:
                                 the_same_counter += 1
 
-        if the_same_counter < FOR_HAPPY:
-            return rand_i, rand_j
+            if the_same_counter < FOR_HAPPY:
+                return rand_i, rand_j
 
 
 # Поиск пустой клетки
