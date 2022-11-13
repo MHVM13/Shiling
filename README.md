@@ -2,7 +2,7 @@
 #### Примеры работы программы
 1. Входные данные: N = 10, количество итераций = 100
 Начальное заполнение
-<img alt="Alt text" height="100" src="/screens/myplot10x100_1.png" width="100"/>
+<img alt="Alt text" height="200" src="/screens/myplot10x100_1.png" width="400"/>
 После сегрегации  
 ![Alt text](/screens/myplot10x100_2.png "")
 2. 
