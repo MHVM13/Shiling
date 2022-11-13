@@ -42,7 +42,7 @@ def calc_cells(cells_percent):
     return int(cells_num)
 
 
-# Метод для заполнения поля клетками в случайном порядке
+# Функция для заполнения поля клетками в случайном порядке
 def field_filling():
     blue = calc_cells(BLUE_PERCENT)
     red = calc_cells(RED_PERCENT)
@@ -65,26 +65,45 @@ def field_filling():
     get_graph()
 
 
-# Поиск несчастливой клетки
+# Функция для проверки является ли эта клетка несчастливой
+def is_unlucky(index_i, index_j):
+    the_same_counter = 0
+
+    if field[index_i, index_j] != 0:  # Пустая клетка
+        for i in range(0, N):
+            for j in range(0, N):
+                if (abs(index_i - i) == 1 or abs(index_i - i) == 0) and (
+                        abs(index_j - j) == 1 or abs(index_j - j) == 0):
+                    if i != index_i or j != index_j:  # Чтобы не считать саму себя
+                        if field[i][j] == field[index_i][index_j]:
+                            the_same_counter += 1
+
+        if the_same_counter < FOR_HAPPY:
+            return True
+
+    return False
+
+
+
+# Функция для проверки всего поля, на наличие несчастливых клеток
+def is_there_unlucky():
+    for i in range(N):
+        for j in range(N):
+            if is_unlucky(i, j):
+                return True
+
+    return False
+
+
+# Случайный поиск несчастливой клетки
 def get_unlucky():
     while True:
-        the_same_counter = 0  # Количество соседей похожих на выбранную клетку
-
         # Генерация индексов произвольной клетки
         rand_i = random.randint(0, N - 1)
         rand_j = random.randint(0, N - 1)
 
-        if field[rand_i, rand_j] != 0:  # Пустая клетка
-            for i in range(0, N):
-                for j in range(0, N):
-                    if (abs(rand_i - i) == 1 or abs(rand_i - i) == 0) and (
-                            abs(rand_j - j) == 1 or abs(rand_j - j) == 0):
-                        if i != rand_i or j != rand_j:  # Чтобы не считать саму себя
-                            if field[i][j] == field[rand_i][rand_j]:
-                                the_same_counter += 1
-
-            if the_same_counter < FOR_HAPPY:
-                return rand_i, rand_j
+        if is_unlucky(rand_i, rand_j):
+            return rand_i, rand_j
 
 
 # Поиск пустых клеток и создание списка из них
@@ -110,8 +129,9 @@ def get_empty():
 def segregation(iterations_num):
     iterations_counter = 0
 
-    while iterations_counter != iterations_num:
-        print(iterations_counter)
+    # Выполняется пока не достигнется определенное количество итераций или пока не оставнется несчастливых клеток
+    while iterations_counter != iterations_num and is_there_unlucky():
+        print(f'Progress: {iterations_counter}')
 
         unlucky_i, unlucky_j = get_unlucky()
         empty_i, empty_j = get_empty()
@@ -120,11 +140,14 @@ def segregation(iterations_num):
         field[empty_i][empty_j] = field[unlucky_i][unlucky_j]
         field[unlucky_i][unlucky_j] = 0
 
-        # get_graph()
+        value = is_there_unlucky()
+
         iterations_counter += 1
+        print(field)
+
+    get_graph()
 
 
 # MAIN
 field_filling()
 segregation(int(input('Введите количество итераций: ')))
-get_graph()
