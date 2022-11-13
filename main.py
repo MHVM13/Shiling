@@ -84,7 +84,6 @@ def is_unlucky(index_i, index_j):
     return False
 
 
-
 # Функция для проверки всего поля, на наличие несчастливых клеток
 def is_there_unlucky():
     for i in range(N):
@@ -140,10 +139,7 @@ def segregation(iterations_num):
         field[empty_i][empty_j] = field[unlucky_i][unlucky_j]
         field[unlucky_i][unlucky_j] = 0
 
-        value = is_there_unlucky()
-
         iterations_counter += 1
-        print(field)
 
     get_graph()
 
